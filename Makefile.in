@@ -100,7 +100,7 @@ include $(JX_MAKE_INCLUDE_DIR)/jx_config
 CXXDEBUG = -g
 CXXOPT = @CXXOPT@
 CXXWARN = @CXXWARN@
-CPPFLAGS = $(J_RAW_SYSTEM_STUFF) -include ../../Linux/Sources/Mulberry_Prefix.h -I../../Sources_Common/i18n/Charsets -I../../Linux/Includes -I../../Sources_Common -I../../Linux/Resources -I../../Sources_Common/Utilities/ -I$(JX_ROOT)/include/jcore -I$(JX_ROOT)/include/jx -I$(JX_ROOT)/include/jximage -I$(JX_ROOT)/ACE/ACE_wrappers
+CPPFLAGS = $(J_RAW_SYSTEM_STUFF) -include ../../Linux/Sources/Mulberry_Prefix.h -I../XMLLib/Source -I../../Sources_Common/i18n/Charsets -I../../Linux/Includes -I../../Sources_Common -I../../Linux/Resources -I../../Sources_Common/Utilities/ -I$(JX_ROOT)/include/jcore -I$(JX_ROOT)/include/jx -I$(JX_ROOT)/include/jximage -I$(JX_ROOT)/ACE/ACE_wrappers
 CXXFLAGS = @CXXFLAGS@ $(CPPFLAGS) $(CXXOPT) $(CXXDEBUG) $(CXXWARN)
 
 include ../include/libraryrules.mak
