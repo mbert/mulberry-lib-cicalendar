@@ -46,10 +46,6 @@
 
 using namespace iCal;
 
-CICalendar::CICalendarRefMap CICalendar::sICalendars;
-CICalendar CICalendar::sICalendar;
-CICalendarRef CICalendar::sICalendarRefCtr = 1;
-
 CICalendar* CICalendar::GetICalendar(const CICalendarRef& ref)
 {
 	CICalendarRefMap::iterator found = sICalendars.find(ref);

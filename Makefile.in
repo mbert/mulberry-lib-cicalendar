@@ -50,6 +50,7 @@ OBJS = \
 	Source/CICalendarDuration$O \
 	Source/CICalendarDurationValue$O \
 	Source/CICalendarFreeBusy$O \
+	Source/CICalendarInit$O \
 	Source/CICalendarIntegerValue$O \
 	Source/CICalendarLocale$O \
 	Source/CICalendarManager$O \

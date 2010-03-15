@@ -43,11 +43,6 @@
 
 using namespace iCal;
 
-CICalendarProperty::CValueTypeMap CICalendarProperty::sDefaultValueTypeMap;
-CICalendarProperty::CValueTypeMap CICalendarProperty::sValueTypeMap;
-CICalendarProperty::CTypeValueMap CICalendarProperty::sTypeValueMap;
-CICalendarProperty::CMultiValues CICalendarProperty::sMultiValues;
-
 void CICalendarProperty::_init_attr_value(const int32_t& ival)
 {
 	// Value
