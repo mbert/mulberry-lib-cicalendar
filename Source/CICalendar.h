@@ -193,7 +193,16 @@ public:
 	{
 		mETag = etag;
 	}
-
+	
+	const cdstring& GetSyncToken() const
+	{
+		return mSyncToken;
+	}
+	void SetSyncToken(const cdstring& sync_token)
+	{
+		mSyncToken = sync_token;
+	}
+	
 	const CICalendarComponentRecordDB& GetRecording() const
 	{
 		return mRecordDB;
@@ -306,6 +315,7 @@ protected:
 	
 	// Pseudo properties used for disconnected cache
 	cdstring					mETag;
+	cdstring					mSyncToken;
 	CICalendarComponentRecordDB	mRecordDB;
 
 	CICalendarComponentDB&	GetComponents(CICalendarComponent::EComponentType type);

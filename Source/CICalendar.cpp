@@ -1324,10 +1324,11 @@ bool CICalendar::RemoveComponentByKey(CICalendarComponentDB& db, const cdstring&
 
 // XML DTD
 /*
-	<!ELEMENT calendarstate	(etag, recordlist) >
+	<!ELEMENT calendarstate	(etag, sync-token, recordlist) >
 	<!ATTLIST calendarstate	version			CDATA	#REQUIRED >
 	
 	<!ELEMENT etag			(#PCDATA) >
+	<!ELEMENT sync-token	(#PCDATA) >
 	
 	<!ELEMENT recordlist	(record*) >
 	
@@ -1344,7 +1345,8 @@ bool CICalendar::RemoveComponentByKey(CICalendarComponentDB& db, const cdstring&
 static const char* cXMLElement_calendarstate	= "calendarstate";
 static const char* cXMLAttribute_version		= "version";
 
-static const char* cXMLElement_etag			= "etag";
+static const char* cXMLElement_etag				= "etag";
+static const char* cXMLElement_sync_token		= "sync-token";
 
 static const char* cXMLElement_recordlist		= "recordlist";
 
@@ -1368,6 +1370,7 @@ void CICalendar::ParseCache(std::istream& is)
 {
 	// Init the cached data first
 	mETag = cdstring::null_str;
+	mSyncToken = cdstring::null_str;
 	mRecordDB.clear();
 
 	// XML parse the data
@@ -1387,6 +1390,11 @@ void CICalendar::ParseCache(std::istream& is)
 		if (etagnode == NULL)
 			return;
 		etagnode->DataValue(mETag);
+		
+		// Get sync-token
+		const xmllib::XMLNode* synctokennode = root->GetChild(cXMLElement_sync_token);
+		if (synctokennode != NULL)
+			synctokennode->DataValue(mSyncToken);
 		
 		// Get recordlist node
 		const xmllib::XMLNode* recordlistnode = root->GetChild(cXMLElement_recordlist);
@@ -1411,7 +1419,10 @@ void CICalendar::GenerateCache(std::ostream& os) const
 	doc->GetRoot()->AddAttribute(cXMLAttribute_version, "1");
 	
 	// Create etag child node
-	xmllib::XMLNode* etagnode = new xmllib::XMLNode(doc.get(), doc->GetRoot(), cXMLElement_etag, GetETag());
+	new xmllib::XMLNode(doc.get(), doc->GetRoot(), cXMLElement_etag, GetETag());
+	
+	// Create sync-token child node
+	new xmllib::XMLNode(doc.get(), doc->GetRoot(), cXMLElement_sync_token, GetSyncToken());
 	
 	// Create recordlist child node
 	xmllib::XMLNode* recordlistnode = new xmllib::XMLNode(doc.get(), doc->GetRoot(), cXMLElement_recordlist);
