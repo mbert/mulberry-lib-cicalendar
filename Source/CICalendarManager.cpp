@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2007 Cyrus Daboo. All rights reserved.
+    Copyright (c) 2007-2010 Cyrus Daboo. All rights reserved.
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -59,29 +59,44 @@ void CICalendarManager::InitManager()
 	{
 		cdstring tzpath = *iter;
 		::addtopath(tzpath, cTimezonesDir);
-		::addtopath(tzpath, "vtimezones.ics");
-		if (::fileexists(tzpath))
-		{
-			cdifstream fin(tzpath.c_str());
-			iCal::CICalendar::sICalendar.Parse(fin);
-		}
+		ScanDirectoryForTimezones(tzpath);
 	}
 	
 	// Need to have timezones cached before starting any UI work as timezone popup needs them
 	{
 		cdstring tzpath = CConnectionManager::sConnectionManager.GetTimezonesDirectory();
-		::addtopath(tzpath, "vtimezones.ics");
-		if (::fileexists(tzpath))
-		{
-			cdifstream fin(tzpath.c_str());
-			iCal::CICalendar::sICalendar.Parse(fin);
-		}
+		ScanDirectoryForTimezones(tzpath);
 	}
 	
 	// Eventually we need to read these from prefs - for now they are hard-coded to my personal prefs!
 	
 	SetDefaultTimezone(CICalendarTimezone(false, "US/Eastern"));
 #endif
+}
+
+void CICalendarManager::ScanDirectoryForTimezones(const cdstring& dir)
+{
+	diriterator iter(dir, true, ".ics");
+	iter.set_return_hidden_files(false);
+	const char* fname = NULL;
+	while(iter.next(&fname))
+	{
+		// Get full path
+		cdstring fpath = dir;
+		::addtopath(fpath, fname);
+		
+		// Check for directory
+		if (iter.is_dir())
+		{
+			// Scan more
+			ScanDirectoryForTimezones(fpath);
+		}
+		else
+		{
+			cdifstream fin(fpath.c_str());
+			iCal::CICalendar::sICalendar.Parse(fin);
+		}
+	}
 }
 
 void CICalendarManager::SetDefaultTimezoneID(const cdstring& tzid)

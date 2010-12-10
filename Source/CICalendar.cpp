@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2007 Cyrus Daboo. All rights reserved.
+    Copyright (c) 2007-2010 Cyrus Daboo. All rights reserved.
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -911,11 +911,31 @@ void CICalendar::GetTimezones(cdstrvect& tzids) const
 	{
 		sorted.insert(CSortedComponentMap::value_type(static_cast<CICalendarVTimezone*>((*iter).second)->GetSortKey(), (*iter).second));
 	}
-
+	
 	// Now add to list in sorted order
 	for(CSortedComponentMap::const_iterator iter = sorted.begin(); iter != sorted.end(); iter++)
 	{
 		tzids.push_back(static_cast<CICalendarVTimezone*>((*iter).second)->GetID());
+	}
+}
+
+void CICalendar::SortTimezones(cdstrvect& tzids) const
+{
+	// Get all timezones in a list for sorting
+	typedef std::multimap<int32_t, const CICalendarComponent*> CSortedComponentMap;
+	CSortedComponentMap sorted;
+	for(cdstrvect::const_iterator iter = tzids.begin(); iter != tzids.end(); iter++)
+	{
+		const CICalendarVTimezone* tz = GetTimezone(*iter);
+		if (tz != NULL)
+			sorted.insert(CSortedComponentMap::value_type(tz->GetSortKey(), tz));
+	}
+	
+	// Now add to list in sorted order
+	tzids.clear();
+	for(CSortedComponentMap::const_iterator iter = sorted.begin(); iter != sorted.end(); iter++)
+	{
+		tzids.push_back(static_cast<const CICalendarVTimezone*>((*iter).second)->GetID());
 	}
 }
 

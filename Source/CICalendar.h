@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2007 Cyrus Daboo. All rights reserved.
+    Copyright (c) 2007-2010 Cyrus Daboo. All rights reserved.
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -236,6 +236,7 @@ public:
 	int32_t GetTimezoneOffsetSeconds(const cdstring& timezone, const CICalendarDateTime& dt);
 	cdstring GetTimezoneDescriptor(const cdstring& timezone, const CICalendarDateTime& dt);
 	void	GetTimezones(cdstrvect& tzids) const;
+	void	SortTimezones(cdstrvect& tzids) const;
 	const CICalendarVTimezone* GetTimezone(const cdstring& tzid) const;
 	bool ValidEDST(cdstrvect& tzids) const;
 	void UpgradeEDST();
