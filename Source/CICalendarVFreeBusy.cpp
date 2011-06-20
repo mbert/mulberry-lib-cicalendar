@@ -29,6 +29,7 @@
 #include "CICalendarPeriodValue.h"
 
 #include <algorithm>
+#include <iterator>
 
 using namespace iCal;
 

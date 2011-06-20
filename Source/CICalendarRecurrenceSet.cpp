@@ -27,6 +27,7 @@
 
 #include <cerrno>
 #include <algorithm>
+#include <iterator>
 
 using namespace iCal;
 

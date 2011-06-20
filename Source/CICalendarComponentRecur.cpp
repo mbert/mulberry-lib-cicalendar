@@ -31,6 +31,7 @@
 #include "CICalendarRecurrenceSet.h"
 
 #include <algorithm>
+#include <iterator>
 
 using namespace iCal;
 
