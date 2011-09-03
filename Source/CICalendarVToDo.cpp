@@ -62,6 +62,10 @@ bool CICalendarVToDo::sort_for_display(const CICalendarComponentExpandedShared& 
 		status1 = eStatus_VToDo_NeedsAction;
 	if (status2 == eStatus_VToDo_None)
 		status2 = eStatus_VToDo_NeedsAction;
+    if (s1->HasCompleted())
+        status1 = eStatus_VToDo_Completed;
+    if (s2->HasCompleted())
+        status2 = eStatus_VToDo_Completed;
 	if (status1 != status2)
 	{
 		// More important ones at the top
@@ -192,52 +196,59 @@ cdstring CICalendarVToDo::GetStatusText() const
 {
 	std::ostrstream sout;
 	
-	switch(mStatus)
-	{
-	case eStatus_VToDo_NeedsAction:
-	case eStatus_VToDo_InProcess:
-	default:
-		if (HasEnd())
-		{
-			// Check due date
-			CICalendarDateTime today;
-			today.SetToday();
-			if (GetEnd() > today)
-			{
-				sout << "Due: ";
-				CICalendarDuration whendue = GetEnd() - today;
-				if ((whendue.GetDays() > 0) && (whendue.GetDays() <= 7))
-					sout << whendue.GetDays() << " days";
-				else
-					sout << GetEnd().GetLocaleDate(CICalendarDateTime::eNumericDate);
-			}
-			else if (GetEnd() == today)
-				sout << "Due today";
-			else
-			{
-				sout << "Overdue: ";
-				CICalendarDuration overdue = today - GetEnd();
-				if (overdue.GetWeeks() != 0)
-					sout << overdue.GetWeeks() << " weeks";
-				else
-					sout << overdue.GetDays() + 1 << " days";
-			}
-		}
-		else
-			sout << "Not Completed";
-		break;
-	case eStatus_VToDo_Completed:
-		if (HasCompleted())
-		{
-			sout << "Completed: " << GetCompleted().GetLocaleDate(CICalendarDateTime::eNumericDate);
-		}
-		else
-			sout << "Completed";
-		break;
-	case eStatus_VToDo_Cancelled:
-		sout << "Cancelled";
-		break;
-	}
+    if (HasCompleted())
+    {
+        sout << "Completed: " << GetCompleted().GetLocaleDate(CICalendarDateTime::eNumericDate);
+    }
+    else
+    {
+        switch(mStatus)
+        {
+        case eStatus_VToDo_NeedsAction:
+        case eStatus_VToDo_InProcess:
+        default:
+            if (HasEnd())
+            {
+                // Check due date
+                CICalendarDateTime today;
+                today.SetToday();
+                if (GetEnd() > today)
+                {
+                    sout << "Due: ";
+                    CICalendarDuration whendue = GetEnd() - today;
+                    if ((whendue.GetDays() > 0) && (whendue.GetDays() <= 7))
+                        sout << whendue.GetDays() << " days";
+                    else
+                        sout << GetEnd().GetLocaleDate(CICalendarDateTime::eNumericDate);
+                }
+                else if (GetEnd() == today)
+                    sout << "Due today";
+                else
+                {
+                    sout << "Overdue: ";
+                    CICalendarDuration overdue = today - GetEnd();
+                    if (overdue.GetWeeks() != 0)
+                        sout << overdue.GetWeeks() << " weeks";
+                    else
+                        sout << overdue.GetDays() + 1 << " days";
+                }
+            }
+            else
+                sout << "Not Completed";
+            break;
+        case eStatus_VToDo_Completed:
+            if (HasCompleted())
+            {
+                sout << "Completed: " << GetCompleted().GetLocaleDate(CICalendarDateTime::eNumericDate);
+            }
+            else
+                sout << "Completed";
+            break;
+        case eStatus_VToDo_Cancelled:
+            sout << "Cancelled";
+            break;
+        }
+    }
 	
 	sout << std::ends;
 	cdstring result;
@@ -247,6 +258,9 @@ cdstring CICalendarVToDo::GetStatusText() const
 
 CICalendarVToDo::ECompletedStatus CICalendarVToDo::GetCompletionState() const
 {
+    if (HasCompleted())
+        return eDone;
+
 	switch(mStatus)
 	{
 	case eStatus_VToDo_NeedsAction:
