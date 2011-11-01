@@ -204,6 +204,17 @@ cdstring CICalendarVToDo::GetStatusText() const
     {
         switch(mStatus)
         {
+        case eStatus_VToDo_None:
+            if (mPercentComplete == 100)
+            {
+                if (HasCompleted())
+                {
+                    sout << "Completed: " << GetCompleted().GetLocaleDate(CICalendarDateTime::eNumericDate);
+                }
+                else
+                    sout << "Completed";
+                break;
+            }
         case eStatus_VToDo_NeedsAction:
         case eStatus_VToDo_InProcess:
         default:
@@ -263,6 +274,11 @@ CICalendarVToDo::ECompletedStatus CICalendarVToDo::GetCompletionState() const
 
 	switch(mStatus)
 	{
+    case eStatus_VToDo_None:
+        if (mPercentComplete == 100)
+            return eDone;
+        
+        // Fall through to NEEDS-ACTION logic
 	case eStatus_VToDo_NeedsAction:
 	case eStatus_VToDo_InProcess:
 	default:
@@ -298,6 +314,7 @@ void CICalendarVToDo::EditStatus(EStatus_VToDo status)
 		// Remove existing STATUS & COMPLETED items
 		RemoveProperties(cICalProperty_STATUS);
 		RemoveProperties(cICalProperty_COMPLETED);
+		RemoveProperties(cICalProperty_PERCENT_COMPLETE);
 		mHasCompleted = false;
 
 		// Now create properties

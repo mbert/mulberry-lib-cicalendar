@@ -112,6 +112,9 @@ public:
 	void	SetPriority(int32_t priority)
 		{ mPriority = priority; }
 
+	int32_t	GetPercentComplete() const
+        { return mPercentComplete; }
+
 	const CICalendarDateTime& GetCompleted() const
 		{ return mCompleted; }
 	bool HasCompleted() const
