@@ -679,14 +679,15 @@ void CICalendar::GetVToDos(bool only_due, bool all_dates, const CICalendarDateTi
 	for(CICalendarComponentDB::const_iterator iter = mVToDo.begin(); iter != mVToDo.end(); iter++)
 	{
 		CICalendarVToDo* vtodo = static_cast<CICalendarVToDo*>((*iter).second);
+        iCal::CICalendarVToDo::ECompletedStatus status = vtodo->GetCompletionState();
 		
 		// Filter out done (that were complted more than a day ago) or cancelled to dos if required
 		if (only_due)
 		{
-			if (vtodo->GetStatus() == eStatus_VToDo_Cancelled)
+			if (status == iCal::CICalendarVToDo::eCancelled)
 				continue;
-			else if ((vtodo->GetStatus() == eStatus_VToDo_Completed) &&
-						(!vtodo->HasCompleted() || (vtodo->GetCompleted() < minusoneday)))
+            else if ((status == iCal::CICalendarVToDo::eDone) &&
+                     (!vtodo->HasCompleted() || (vtodo->GetCompleted() < minusoneday)))
 				continue;
 		}
 
