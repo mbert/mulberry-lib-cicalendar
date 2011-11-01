@@ -792,19 +792,19 @@ cdstring CICalendarDateTime::GetText() const
 	if (mDateOnly)
 	{
 		buf.reserve(10);
-		::snprintf(buf, 10, "%4d%02d%02d", mYear, mMonth, mDay);
+		::snprintf(buf, 10, "%04d%02d%02d", mYear, mMonth, mDay);
 	}
 	else
 	{
 		if (mTimezone.GetUTC())
 		{
 			buf.reserve(18);
-			::snprintf(buf, 18, "%4d%02d%02dT%02d%02d%02dZ", mYear, mMonth, mDay, mHours, mMinutes, mSeconds);
+			::snprintf(buf, 18, "%04d%02d%02dT%02d%02d%02dZ", mYear, mMonth, mDay, mHours, mMinutes, mSeconds);
 		}
 		else
 		{
 			buf.reserve(17);
-			::snprintf(buf, 17, "%4d%02d%02dT%02d%02d%02d", mYear, mMonth, mDay, mHours, mMinutes, mSeconds);
+			::snprintf(buf, 17, "%04d%02d%02dT%02d%02d%02d", mYear, mMonth, mDay, mHours, mMinutes, mSeconds);
 		}
 	}
 
