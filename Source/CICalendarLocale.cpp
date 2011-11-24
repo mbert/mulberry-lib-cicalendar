@@ -125,7 +125,7 @@ bool CICalendarLocale::Use24HourTime()
 		cdstring result;
 		result.reserve(256);
 		::strftime(result.c_str_mod(), 256,"%X", now_tm);
-		s24HourTime = (result[0UL] == '2');
+		s24HourTime = (result[(cdstring::size_type)0] == '2');
 #endif
 
 		_init_done = true;
@@ -177,7 +177,7 @@ bool CICalendarLocale::UseDDMMDate()
 		::strftime(result.c_str_mod(), 256, "%x", now_tm);
 
 		// If first character is a digit assuming day is first in this lcoale
-		sDDMMDate = (result[0UL] == '3');
+		sDDMMDate = (result[(cdstring::size_type)0] == '3');
 #endif
 
 		_init_done_date = true;

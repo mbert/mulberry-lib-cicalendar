@@ -51,7 +51,7 @@ bool CICalendarUtils::ReadFoldedLine(std::istream& is, cdstring& line1, cdstring
 			return true;
 
 		// Does it start with a space => folded
-		if ((line2.length() != 0) && isspace(line2[0UL]))
+		if ((line2.length() != 0) && isspace(line2[(cdstring::size_type)0]))
 			// Copy folded line (without space) to current line and cycle for more
 			line1.append(line2, 1, line2.length() - 1);
 		else

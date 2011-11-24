@@ -126,7 +126,7 @@ void CICalendarComponent::SetUID(const cdstring& uid)
 		::snprintf(lhs_txt.c_str_mod(), 256, "%lu.%lu.%lu", (time_t) clock(), time(NULL), ctr++);
 		cdstring lhs;
 		lhs_txt.md5(lhs);
-		lhs[24UL] = 0;
+		lhs[(cdstring::size_type)24] = 0;
 
 		// Get right side (domain) of message-id
 		cdstring rhs;
@@ -154,7 +154,7 @@ void CICalendarComponent::SetUID(const cdstring& uid)
 				
 			// Use first 24 chars of MD5 digest of the domain as the right-side of message-id
 			domain.md5(rhs);
-			rhs[24UL] = 0;
+			rhs[(cdstring::size_type)24] = 0;
 		}
 
 		// Generate the UID string
@@ -193,7 +193,7 @@ void CICalendarComponent::GenerateRURL()
 		cdstring hash;
 		hash += GetMapKey();
 		hash += ":";
-		hash += cdstring(GetSeq());
+		hash += cdstring((long)GetSeq());
 		hash += ":";
 
 		CICalendarDateTime dt;

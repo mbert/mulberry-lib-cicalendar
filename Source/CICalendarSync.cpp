@@ -205,7 +205,7 @@ void CICalendarSync::Sync()
 	}
 
 	// Step 6
-	if (cal1_changed) ;
+	//if (cal1_changed) ;
 }
 
 // NB Assumes components are the same but different versions

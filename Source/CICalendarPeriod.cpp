@@ -36,7 +36,7 @@ void CICalendarPeriod::Parse(const cdstring& data)
 		cdstring end(data, slash_pos + 1);
 
 		mStart.Parse(start);
-		if (end[0UL] == 'P')
+		if (end[(cdstring::size_type)0] == 'P')
 		{
 			mDuration.Parse(end);
 			mUseDuration = true;

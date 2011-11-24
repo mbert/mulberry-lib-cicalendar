@@ -836,7 +836,7 @@ void CICalendarDateTime::Parse(const cdstring& data)
 	mDay = strtol(buf, NULL, 10);
 
 	// Now look for more
-	if ((data.length() >= 15) && (data[8UL] == 'T'))
+	if ((data.length() >= 15) && (data[(cdstring::size_type)8] == 'T'))
 	{
 		// Get hours
 		::strncpy(buf, data.c_str() + 9, 2);
@@ -855,7 +855,7 @@ void CICalendarDateTime::Parse(const cdstring& data)
 
 		mDateOnly = false;
 
-		mTimezone.SetUTC(data[15UL] == 'Z');
+		mTimezone.SetUTC(data[(cdstring::size_type)15] == 'Z');
 	}
 	else
 		mDateOnly = true;
