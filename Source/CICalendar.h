@@ -114,7 +114,7 @@ public:
 		const CICalendarComponent&	mComponent;
 	};
 
-	static CICalendar	sICalendar;
+	static CICalendar&	getSICalendar();
 
 	static CICalendar* GetICalendar(const CICalendarRef& ref);
 

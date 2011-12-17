@@ -48,9 +48,21 @@ using namespace iCal;
 
 #ifndef __VCPP__
 CICalendar::CICalendarRefMap CICalendar::sICalendars;
-CICalendar CICalendar::sICalendar;
+//CICalendar CICalendar::sICalendar;
 CICalendarRef CICalendar::sICalendarRefCtr = 1;
 #endif
+
+CICalendar&
+CICalendar::getSICalendar()
+{
+	static CICalendar *sICalendar = NULL;
+	if (sICalendar == NULL)
+	{
+		sICalendar = new CICalendar();
+		sICalendar->InitDefaultTimezones();
+	}
+	return *sICalendar;
+}
 
 CICalendar* CICalendar::GetICalendar(const CICalendarRef& ref)
 {
@@ -75,10 +87,10 @@ CICalendar::CICalendar()
 	AddDefaultProperties();
 
 	// Special init for static item
-	if (this == &sICalendar)
-	{
-		InitDefaultTimezones();
-	}
+	//if (this == &getSICalendar())
+	//{
+	//	InitDefaultTimezones();
+	//}
 }
 
 CICalendar::~CICalendar()
@@ -368,9 +380,9 @@ bool CICalendar::Parse(std::istream& is)
 	}
 
 	// We need to store all timezones in the static object so they can be accessed by any date object
-	if (this != &sICalendar)
+	if (this != &getSICalendar())
 	{
-		sICalendar.MergeTimezones(*this);
+		getSICalendar().MergeTimezones(*this);
 	}
 
 	return result;
@@ -537,9 +549,9 @@ iCal::CICalendarComponent* CICalendar::ParseComponent(std::istream& is, const cd
 
 	// We need to store all timezones in the static object so they can be accessed by any date object
 	// Only do this if we read in a timezone
-	if (got_timezone && (this != &sICalendar))
+	if (got_timezone && (this != &getSICalendar()))
 	{
-		sICalendar.MergeTimezones(*this);
+		getSICalendar().MergeTimezones(*this);
 	}
 	
 	return result;
@@ -610,7 +622,7 @@ void CICalendar::GenerateOne(std::ostream& os, const CICalendarComponent& comp) 
 		if (tz == NULL)
 		{
 			// Find it in the static object
-			tz = sICalendar.GetTimezone(*iter);
+			tz = getSICalendar().GetTimezone(*iter);
 		}
 		
 		if (tz != NULL)
@@ -974,7 +986,7 @@ void CICalendar::IncludeTimezones()
 		if (tz == NULL)
 		{
 			// Find it in the static object
-			tz = sICalendar.GetTimezone(*iter);
+			tz = getSICalendar().GetTimezone(*iter);
 			if (tz != NULL)
 			{
 				CICalendarVTimezone* dup = new CICalendarVTimezone(*tz);

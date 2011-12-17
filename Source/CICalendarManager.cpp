@@ -94,7 +94,7 @@ void CICalendarManager::ScanDirectoryForTimezones(const cdstring& dir)
 		else
 		{
 			cdifstream fin(fpath.c_str());
-			iCal::CICalendar::sICalendar.Parse(fin);
+			iCal::CICalendar::getSICalendar().Parse(fin);
 		}
 	}
 }

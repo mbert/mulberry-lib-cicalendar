@@ -55,10 +55,10 @@ int32_t CICalendarTimezone::TimeZoneSecondsOffset(const CICalendarDateTime& dt) 
 	if (mUTC)
 		return 0;
 	else if (mTimezone.empty())
-		return CICalendar::sICalendar.GetTimezoneOffsetSeconds(CICalendarManager::sICalendarManager->GetDefaultTimezone().GetTimezoneID(), dt);
+		return CICalendar::getSICalendar().GetTimezoneOffsetSeconds(CICalendarManager::sICalendarManager->GetDefaultTimezone().GetTimezoneID(), dt);
 
 	// Look up timezone and resolve date using default timezones
-	return CICalendar::sICalendar.GetTimezoneOffsetSeconds(mTimezone, dt);
+	return CICalendar::getSICalendar().GetTimezoneOffsetSeconds(mTimezone, dt);
 }
 
 cdstring CICalendarTimezone::TimeZoneDescriptor(const CICalendarDateTime& dt) const
@@ -66,8 +66,8 @@ cdstring CICalendarTimezone::TimeZoneDescriptor(const CICalendarDateTime& dt) co
 	if (mUTC)
 		return "(UTC)";
 	else if (mTimezone.empty())
-		return CICalendar::sICalendar.GetTimezoneDescriptor(CICalendarManager::sICalendarManager->GetDefaultTimezone().GetTimezoneID(), dt);
+		return CICalendar::getSICalendar().GetTimezoneDescriptor(CICalendarManager::sICalendarManager->GetDefaultTimezone().GetTimezoneID(), dt);
 
 	// Look up timezone and resolve date using default timezones
-	return CICalendar::sICalendar.GetTimezoneDescriptor(mTimezone, dt);
+	return CICalendar::getSICalendar().GetTimezoneDescriptor(mTimezone, dt);
 }
