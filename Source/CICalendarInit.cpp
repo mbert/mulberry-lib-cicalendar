@@ -18,5 +18,5 @@ CICalendarProperty::CTypeValueMap CICalendarProperty::sTypeValueMap;
 CICalendarProperty::CMultiValues CICalendarProperty::sMultiValues;
 
 CICalendar::CICalendarRefMap CICalendar::sICalendars;
-CICalendar CICalendar::sICalendar;
+//CICalendar CICalendar::sICalendar;
 CICalendarRef CICalendar::sICalendarRefCtr = 1;
