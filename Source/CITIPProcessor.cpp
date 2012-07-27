@@ -1791,7 +1791,9 @@ CITIPProcessor::EAttendeeState CITIPProcessor::GetAttendeeState(const CICalendar
 			if (attendee->HasAttribute(cICalAttribute_PARTSTAT))
 			{
 				const cdstring& partstat = attendee->GetAttributeValue(cICalAttribute_PARTSTAT);
-				if (partstat.compare(cICalAttribute_PARTSTAT_NEEDSACTION, true) != 0)
+				if (partstat.compare(cICalAttribute_PARTSTAT_DECLINED, true) == 0)
+					result = eIHaveDeclined;
+				else if (partstat.compare(cICalAttribute_PARTSTAT_NEEDSACTION, true) != 0)
 					result = eIHaveAccepted;
 			}
 		}

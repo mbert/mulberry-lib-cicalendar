@@ -44,6 +44,7 @@ public:
 		eSomeAccepted,
 		eSomeDeclined,
 		eIHaveAccepted,
+		eIHaveDeclined,
 		eIHaveNotAccepted
 	};
 
