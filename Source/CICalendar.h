@@ -215,6 +215,7 @@ public:
 	{
 		return !mRecordDB.empty();
 	}
+	void ClearSync();
 
 	void	ParseCache(std::istream& is);
 	void	GenerateCache(std::ostream& os) const;

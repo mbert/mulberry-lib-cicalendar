@@ -1405,6 +1405,24 @@ static const char* cXMLElement_seq				= "seq";
 static const char* cXMLElement_rid				= "rid";
 #endif
 
+void CICalendar::ClearSync()
+{
+    
+	// Remove recording of old data - but leave the etag as-is
+	ClearRecording();
+    
+	// Remove existing calendar properties then add back the defaults
+	mProperties.clear();
+	AddDefaultProperties();
+    
+	// Clean up the map items
+	mVEvent.RemoveAllComponents();
+	mVToDo.RemoveAllComponents();
+	mVJournal.RemoveAllComponents();
+	mVFreeBusy.RemoveAllComponents();
+	mVTimezone.RemoveAllComponents();    
+}
+
 void CICalendar::ParseCache(std::istream& is)
 {
 	// Init the cached data first
