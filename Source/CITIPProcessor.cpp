@@ -499,6 +499,8 @@ void CITIPProcessor::FreeBusyRequest(const CICalendarProperty* organizer,
 	cdstring originator = addrs.front()->GetAddress();
 
 	CICalendarProperty actual_organizer(cICalProperty_ORGANIZER, originator, CICalendarValue::eValueType_CalAddress);
+    if (!addrs.front()->GetName().empty())
+        actual_organizer.AddAttribute(CICalendarAttribute(cICalAttribute_CN, addrs.front()->GetName()));
 
 	// Add the METHOD property
 	itipcal.AddProperty(CICalendarProperty(cICalProperty_METHOD, cICalMethod_REQUEST));
@@ -514,8 +516,11 @@ void CITIPProcessor::FreeBusyRequest(const CICalendarProperty* organizer,
 
 	for(CICalendarPropertyList::const_iterator iter = attendees->begin(); iter != attendees->end(); iter++)
 	{
-		// Copy the property
-		vfb->AddProperty(*iter);
+		// Copy the property, but only keep CN parameter
+        CICalendarProperty actual_attendee(cICalProperty_ATTENDEE, (*iter).GetCalAddressValue()->GetValue(), CICalendarValue::eValueType_CalAddress);
+        if ((*iter).HasAttribute(cICalAttribute_CN))
+            actual_attendee.AddAttribute(CICalendarAttribute(cICalAttribute_CN, (*iter).GetAttributeValue(cICalAttribute_CN)));
+		vfb->AddProperty(actual_attendee);
 	}
 	
 	// Make sure UID is set and unique
