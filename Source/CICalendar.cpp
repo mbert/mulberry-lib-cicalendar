@@ -46,24 +46,6 @@
 
 using namespace iCal;
 
-#ifndef __VCPP__
-CICalendar::CICalendarRefMap CICalendar::sICalendars;
-//CICalendar CICalendar::sICalendar;
-CICalendarRef CICalendar::sICalendarRefCtr = 1;
-#endif
-
-CICalendar&
-CICalendar::getSICalendar()
-{
-	static CICalendar *sICalendar = NULL;
-	if (sICalendar == NULL)
-	{
-		sICalendar = new CICalendar();
-		sICalendar->InitDefaultTimezones();
-	}
-	return *sICalendar;
-}
-
 CICalendar* CICalendar::GetICalendar(const CICalendarRef& ref)
 {
 	CICalendarRefMap::iterator found = sICalendars.find(ref);
